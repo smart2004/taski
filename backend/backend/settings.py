@@ -1,13 +1,16 @@
 from pathlib import Path
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 SECRET_KEY = 'django-insecure-j_89af+30&&4qm*8z9_(^zz8p4-ho8z_m6ylm0s$h!-p@on1_^'
 
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['smart2004.bounceme.net', '62.84.121.157', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -103,7 +106,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = 'static_backend'
+STATIC_ROOT = BASE_DIR / 'static_backend'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -113,3 +117,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ORIGIN_WHITELIST = [
      'http://localhost:3000'
 ]
+
+sentry_sdk.init(
+        # В этой переменной будет значение для вашего проекта.
+    dsn="https://22f0f292c4ee44cdb5e8dc13daa519ed@o4505358682030080.ingest.sentry.io/4505358687535104",
+    integrations=[
+        DjangoIntegration(),
+    ],
+
+    traces_sample_rate=1.0,
+
+    send_default_pii=True
+)
